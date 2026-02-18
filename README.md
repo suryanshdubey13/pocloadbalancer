@@ -43,9 +43,10 @@ Flow
                                            │
                                            ▼
                             ┌────────────────────────────┐
-                            │       Target Group         │
-                            │       (HTTP : 8080)        │
-                            │ Health Check: /hello/hello │
+                            │       Target Group         | 
+                            │       (HTTP : 8080)        |
+                            │ Health Check: /acuator/    |
+                            |           health           │
                             └──────────────┬─────────────┘
                                            │
                         ┌──────────────────┴──────────────────┐
@@ -84,15 +85,95 @@ Flow
 
     GET /api/hello
 
-    example- 
+    example- http://pocloadbalancer-1509606686.ap-south-1.elb.amazonaws.com/hello/hello
 
 ## Sample Response
 
     Hello from container: ip-adress.ap-south-1.compute.internal (container env).
 
-# Steps for Deployment using ALB
+## Health Endpoint
+      GET /actuator/heath
 
-## Dockerfile
+      example- http://pocloadbalancer-1509606686.ap-south-1.elb.amazonaws.com/actuator/health
+      
+# Steps in configuring service and ALB
+
+## Dockerize the application
+
+    1. Build Jar file using -->  mvn clean package --> generate target/pocloadbalancer.jar
+    2. Configure Docker file 
+    3. docker login ( login to your docker hub account)
+    4. create docker repository
+    5. build Docker image 
+      eg :  docker build -t pocloadbalancer .
+    6. docker push
+
+## Create Application Load Balancer
+
+    1. Go to EC2 → Load Balancers
+    2. Click Create Load Balancer
+    3. Select Application Load Balancer
+    4. Choose:
+      Internet-facing
+      HTTP (Port 80)
+      At least 2 Availability Zones
+
+## Create Target Group
+
+    1. Target Type → IP (Required for Fargate)
+    2. Protocol → HTTP
+    3. Port → 8080
+    4. Health Check Path: /actuator/health
+
+## Create ECS Cluster
+
+    1. Go to ECS (Elastic Container Service).
+    2. Create Cluster
+    3. Select Fargate (Networking Only)
+
+## Create Task Definition
+
+    Configure task definition
+    Launch type: Fargate
+    CPU: 256
+    Memory: 512
+    add Container Image URI from docker hub
+    container port : 8080
+    
+## Create ECS Service
+1. Launch type → Fargate
+2. Desired tasks → 2
+3. Select VPC and subnets
+4. Enable Public IP
+5. Attach existing ALB
+6. Select Target Group
+7. Configure ECS Auto Scaling (Min CPU :2 , Max CPU : 4 , Scale : 50% )
+8. Map container port 8080
+
+## Test Load Balancing
+     Hit Endpoint on browser
+
+# Common Issues Faced During POC
+
+| Issue                  | Cause                           | Fix                        |
+| ---------------------- | ------------------------------- | -------------------------- |
+| ERR_CONNECTION_REFUSED | ALB listening on wrong port     | Change listener to port 80 |
+| Target Unhealthy       | Health check path incorrect     | Update health check path   |
+| Connection timeout     | Security group misconfiguration | Allow 8080 from ALB SG     |
+
+# Future Improvements
+
+1. Add HTTPS (SSL via ACM)
+2. Add CloudWatch logging
+3. Add CI/CD using GitHub Actions
+4. Use Infrastructure as Code (Terraform / CloudFormation)
+
+# Author
+Suryansh Dubey
+ALB POC (Flow + traffic distribution). 
+
+
+    
 
 
     
