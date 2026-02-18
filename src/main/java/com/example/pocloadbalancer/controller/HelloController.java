@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/Hello")
+@RequestMapping("/hello")
 public class HelloController {
 
     @Value("${HOSTNAME:unknown}")
