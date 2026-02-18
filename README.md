@@ -95,7 +95,7 @@ Flow
 
 ## Sample Response
 
-    Hello from container: ip-adress.ap-south-1.compute.internal (container env).
+    Response from container: ip-adress.ap-south-1.compute.internal (container env).
 
 ## Health Endpoint
       GET /actuator/heath
