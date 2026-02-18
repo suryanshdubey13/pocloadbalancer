@@ -66,3 +66,21 @@ flowchart TD
 4. Load Balancing: Application Load Balancer
 5. Image Registry: Docker Hub
 
+
+# Application Details
+
+# Endpoint
+
+    GET /api/hello
+
+## Sample Response
+
+    Hello from container: ip-adress.ap-south-1.compute.internal (container env).
+
+# Docker Configuration
+
+## Dockerfile
+
+    
+
+
