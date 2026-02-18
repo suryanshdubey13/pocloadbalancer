@@ -4,7 +4,14 @@
 
 # 📌 Overview
 
-This project demonstrates how to deploy a containerized Spring Boot application on AWS ECS (Fargate) behind an Application Load Balancer (ALB) to achieve:
+This Proof of Concept (POC) demonstrates deploying a Spring Boot application on:
+
+Amazon Web Services
+Amazon ECS (Fargate Launch Type)
+Application Load Balancer
+Amazon CloudWatch (for Auto Scaling metrics)
+
+The application is containerized using Docker and deployed to ECS Fargate. Traffic is routed through an ALB, and Service Auto Scaling dynamically adjusts the number of running tasks based on CPU utilization.
 1. Horizontal scaling
 2. High availability
 3. Health-based routing
@@ -52,11 +59,15 @@ Flow
             └──────────────────────┘              └──────────────────────┘
 
 
-flowchart TD
+## flowchart TD
     A[User] --> B[Application Load Balancer]
+    
     B --> C[Target Group<br/>Health Check Enabled]
+    
     C --> D[ECS Service - Fargate]
+    
     D --> E[Spring Boot Task 1]
+    
     D --> F[Spring Boot Task 2]
 
 # Tech Stack
@@ -69,17 +80,20 @@ flowchart TD
 
 # Application Details
 
-# Endpoint
+## Endpoint
 
     GET /api/hello
+
+    example- 
 
 ## Sample Response
 
     Hello from container: ip-adress.ap-south-1.compute.internal (container env).
 
-# Docker Configuration
+# Steps for Deployment using ALB
 
 ## Dockerfile
+
 
     
 
