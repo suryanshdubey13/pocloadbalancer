@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("")
 public class HelloController {
 
-    @Value("${HOSTNAME:unknown}")
+    @Value("${HOSTNAME:Surya}")
     private String hostname;
 
     @GetMapping("/hello")
