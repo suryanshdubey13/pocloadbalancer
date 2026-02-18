@@ -6,14 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/api")
 public class HelloController {
-
-    @Value("${HOSTNAME:Surya}")
-    private String hostname;
 
     @GetMapping("/hello")
     public String hello() {
-        return "Response from container: " + hostname;
+          return "Hello from container: " +
+                System.getenv("HOSTNAME");
     }
 }
