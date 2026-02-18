@@ -58,8 +58,14 @@ Flow
             │ SG: Allow 8080       │              │ SG: Allow 8080       │
             │ From ALB SG only     │              │ From ALB SG only     │
             └──────────────────────┘              └──────────────────────┘
+                            ┌────────────────────────────┐
+                            │      Auto Scaling Policy   | 
+                            │     Scale Out/ IN :50%     |
+                            │ MIN CPU : 2 | MAX CPU : 4  |
+                            |                            │
+                            └──────────────┬─────────────┘
 
-
+   
 ## flowchart TD
     A[User] --> B[Application Load Balancer]
     
